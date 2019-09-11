@@ -91,7 +91,9 @@ const AddBook = () => {
         <Input type="file" onChange={e => {
           e.persist();
           setSuccess(false);
-          fileReader.readAsDataURL(e.target.files[0])
+          if(fileReader) {
+            fileReader.readAsDataURL(e.target.files[0])
+          }
         }} />
       </FormField>
       <FormField>
