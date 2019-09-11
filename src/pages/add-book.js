@@ -7,7 +7,7 @@ const FormField = styled.div`
   margin-bottom: 20px;
 `
 let fileReader;
-if(window) {
+if(typeof window !== 'undefined') {
   fileReader = new window.FileReader();
 }
 
