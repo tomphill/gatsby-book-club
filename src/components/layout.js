@@ -13,7 +13,7 @@ import {FirebaseContext, useAuth} from './Firebase';
 import Header from "./header"
 import "./layout.css"
 
-const LayoutLala = ({ children }) => {
+const Layout = ({ children }) => {
 
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
@@ -44,8 +44,8 @@ const LayoutLala = ({ children }) => {
   )
 }
 
-LayoutLala.propTypes = {
+Layout.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-export default LayoutLala
+export default Layout
