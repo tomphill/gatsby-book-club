@@ -6,9 +6,10 @@ import styled from 'styled-components';
 const FormField = styled.div`
   margin-bottom: 20px;
 `
+
 let fileReader;
-if(typeof window !== 'undefined') {
-  fileReader = new window.FileReader();
+if(typeof window !== 'undefined'){
+  fileReader = new FileReader();
 }
 
 const AddBook = () => {
@@ -21,11 +22,9 @@ const AddBook = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    if(fileReader) {
-      fileReader.addEventListener('load', () => {
-        setBookCover(fileReader.result);
-      })
-    }
+    fileReader.addEventListener('load', () => {
+      setBookCover(fileReader.result);
+    })
   }, []);
 
   useEffect(() => {
@@ -91,9 +90,7 @@ const AddBook = () => {
         <Input type="file" onChange={e => {
           e.persist();
           setSuccess(false);
-          if(fileReader) {
-            fileReader.readAsDataURL(e.target.files[0])
-          }
+          fileReader.readAsDataURL(e.target.files[0])
         }} />
       </FormField>
       <FormField>
