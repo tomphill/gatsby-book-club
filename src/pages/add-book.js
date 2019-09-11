@@ -21,9 +21,11 @@ const AddBook = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    fileReader.addEventListener('load', () => {
-      setBookCover(fileReader.result);
-    })
+    if(fileReader) {
+      fileReader.addEventListener('load', () => {
+        setBookCover(fileReader.result);
+      })
+    }
   }, []);
 
   useEffect(() => {
