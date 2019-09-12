@@ -21,6 +21,14 @@ const AddBook = () => {
   const [summary, setSummary] = useState('');
   const [success, setSuccess] = useState(false);
 
+  let isMounted = true;
+
+  useEffect(() => {
+    return () => {
+      isMounted = false;
+    }
+  }, [])
+
   useEffect(() => {
     fileReader.addEventListener('load', () => {
       setBookCover(fileReader.result);
@@ -55,7 +63,9 @@ const AddBook = () => {
         authorId,
         summary
       }).then(() => {
-        setSuccess(true)
+        if(isMounted) {
+          setSuccess(true)
+        }
       })
     }}>
       <FormField>
