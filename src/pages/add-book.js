@@ -39,17 +39,19 @@ const AddBook = () => {
     // query all available authors
     if(firebase) {
       firebase.getAuthors().then(snapshot => {
-        const availableAuthors = [];
-        snapshot.forEach(doc => {
-          availableAuthors.push({
-            id: doc.id,
-            ...doc.data()
+        if(isMounted) {
+          const availableAuthors = [];
+          snapshot.forEach(doc => {
+            availableAuthors.push({
+              id: doc.id,
+              ...doc.data()
+            })
           })
-        })
 
-        setAuthorId(availableAuthors[0].id);
+          setAuthorId(availableAuthors[0].id);
 
-        setAuthors(availableAuthors);
+          setAuthors(availableAuthors);
+        }
       })
     }
   }, [firebase])
