@@ -11,7 +11,7 @@ module.exports = {
   plugins: [
     'gatsby-plugin-styled-components',
     {
-      resolve: 'gatsby-source-firestore',
+      resolve: 'gatsby-firesource',
       options: {
         credential: {
           "type": process.env.FIREBASE_TYPE,

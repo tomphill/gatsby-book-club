@@ -1,5 +1,4 @@
 import firebaseConfig from "./config";
-import axios from 'axios';
 
 class Firebase {
   constructor(app) {

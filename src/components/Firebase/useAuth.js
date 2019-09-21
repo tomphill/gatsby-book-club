@@ -31,6 +31,9 @@ function useAuth() {
                         }
                     })
                 }else{
+                    if(publicProfileUnsubscribe){
+                        publicProfileUnsubscribe();
+                    }
                     setUser(null);
                 }
 

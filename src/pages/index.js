@@ -1,8 +1,5 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
-
-import Image from "../components/image"
-import SEO from "../components/seo"
 import BookItem from '../components/BookItem';
 import styled from 'styled-components';
 
