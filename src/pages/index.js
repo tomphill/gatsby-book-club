@@ -1,68 +1,66 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
-import BookItem from '../components/BookItem';
-import styled from 'styled-components';
+import BookItem from "../components/BookItem"
+import styled from "styled-components"
 
 const LinkButton = styled.div`
   text-align: right;
-  
-  a{
+
+  a {
     padding: 8px;
     background: rebeccapurple;
     color: white;
     border-radius: 8px;
     text-decoration: none;
-    
-    &:hover{
+
+    &:hover {
       background: indigo;
     }
   }
 `
 
-const IndexPage = (props) => {
-  console.log(props);
+const IndexPage = props => {
   return (
     <section>
-      {props.data.allBook.edges.map(edge =>(
+      {props.data.allBook.edges.map(edge => (
         <BookItem
           bookCover={edge.node.localImage.childImageSharp.fixed}
           bookTitle={edge.node.title}
           bookSummary={edge.node.summary}
           authorName={edge.node.author.name}
-          key={edge.node.id}>
+          key={edge.node.id}
+        >
           <LinkButton>
-            <Link to={`/book/${edge.node.id}`}>
-              Join conversation
-            </Link>
+            <Link to={`/book/${edge.node.id}`}>Join conversation</Link>
           </LinkButton>
         </BookItem>
       ))}
     </section>
-  );
+  )
 }
 
 export const query = graphql`
   {
-  allBook {
-    edges {
-      node {
-        summary
-        title
-        localImage{
-          childImageSharp{
-            fixed(width: 200){
-              ...GatsbyImageSharpFixed
+    allBook {
+      edges {
+        node {
+          summary
+          title
+          localImage {
+            childImageSharp {
+              fixed(width: 200) {
+                ...GatsbyImageSharpFixed
+              }
             }
           }
-        }
-        id
-        author {
-          name
+          id
+          author {
+            name
+          }
         }
       }
     }
   }
-}
-`;
+`
 
 export default IndexPage

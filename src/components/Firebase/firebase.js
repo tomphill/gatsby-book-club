@@ -1,89 +1,98 @@
-import firebaseConfig from "./config";
+import firebaseConfig from "./config"
+import app from "firebase/app"
+import "firebase/auth"
+import "firebase/firestore"
+import "firebase/functions"
+import "firebase/storage"
+
+app.initializeApp(firebaseConfig)
 
 class Firebase {
-  constructor(app) {
-    if(!firebaseInstance) {
-      app.initializeApp(firebaseConfig);
-
-      this.auth = app.auth();
-      this.db = app.firestore();
-      this.functions = app.functions();
-      this.storage = app.storage();
+  constructor() {
+    if (!firebaseInstance) {
+      this.auth = app.auth()
+      this.db = app.firestore()
+      this.functions = app.functions()
+      this.storage = app.storage()
     }
   }
 
-  getUserProfile({userId, onSnapshot}){
-    return this.db.collection('publicProfiles')
-      .where('userId', '==', userId)
+  getUserProfile({ userId, onSnapshot }) {
+    return this.db
+      .collection("publicProfiles")
+      .where("userId", "==", userId)
       .limit(1)
       .onSnapshot(onSnapshot)
   }
 
-  async createAuthor({authorName}){
-    const createAuthorCallable = this.functions.httpsCallable('createAuthor');
+  async createAuthor({ authorName }) {
+    const createAuthorCallable = this.functions.httpsCallable("createAuthor")
     return createAuthorCallable({
-      authorName
-    });
+      authorName,
+    })
   }
 
-  async getAuthors(){
-    return this.db.collection('authors').get();
+  async getAuthors() {
+    return this.db.collection("authors").get()
   }
 
-  async createBook({bookName, authorId, bookCover, summary}){
-    const createBookCallable = this.functions.httpsCallable('createBook');
+  async createBook({ bookName, authorId, bookCover, summary }) {
+    const createBookCallable = this.functions.httpsCallable("createBook")
     return createBookCallable({
       bookName,
       authorId,
       bookCover,
-      summary
+      summary,
     })
   }
 
-  async register({email, password, username}) {
-    await this.auth.createUserWithEmailAndPassword(email, password);
-    const createProfileCallable = this.functions.httpsCallable('createPublicProfile');
+  async register({ email, password, username }) {
+    await this.auth.createUserWithEmailAndPassword(email, password)
+    const createProfileCallable = this.functions.httpsCallable(
+      "createPublicProfile"
+    )
     return createProfileCallable({
-      username
+      username,
     })
   }
 
-  async postComment({text, bookId}){
-    const postCommentCallable = this.functions.httpsCallable('postComment');
+  async postComment({ text, bookId }) {
+    const postCommentCallable = this.functions.httpsCallable("postComment")
     return postCommentCallable({
       text,
-      bookId
-    });
+      bookId,
+    })
   }
 
-  subscribeToBookComments({bookId, onSnapshot}){
-    const bookRef = this.db.collection('books').doc(bookId);
-    return this.db.collection('comments')
-      .where('book', '==', bookRef)
-      .orderBy('dateCreated', 'desc')
+  subscribeToBookComments({ bookId, onSnapshot }) {
+    const bookRef = this.db.collection("books").doc(bookId)
+    return this.db
+      .collection("comments")
+      .where("book", "==", bookRef)
+      .orderBy("dateCreated", "desc")
       .onSnapshot(onSnapshot)
   }
 
-  async login({email, password}) {
-    return this.auth.signInWithEmailAndPassword(email, password);
+  async login({ email, password }) {
+    return this.auth.signInWithEmailAndPassword(email, password)
   }
 
   async logout() {
-    await this.auth.signOut();
+    await this.auth.signOut()
   }
 }
 
-let firebaseInstance;
+let firebaseInstance
 
-function getFirebaseInstance(app) {
-  if(!firebaseInstance && app){
-    firebaseInstance = new Firebase(app);
-    return firebaseInstance;
-  }else if(firebaseInstance){
+function getFirebaseInstance() {
+  if (!firebaseInstance) {
+    firebaseInstance = new Firebase(app)
     return firebaseInstance
-  }else{
-    return null;
+  } else if (firebaseInstance) {
+    return firebaseInstance
+  } else {
+    return null
   }
 }
 
-export default getFirebaseInstance;
+export default getFirebaseInstance
